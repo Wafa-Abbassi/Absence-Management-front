@@ -1,0 +1,66 @@
+<div class="container">
+  <h1>Gestion des absences</h1>
+  <table class="table table-striped centre">
+    <thead class="table-active">
+    <tr>
+      <th>Date de début</th>
+      <th>Date de fin</th>
+      <th>Type</th>
+      <th>Statut</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let absence of absences">
+      <td> {{absence.dateDebut| date:'dd/MM/yyyy' }}</td>
+      <td> {{absence.dateFin| date:'dd/MM/yyyy' }}</td>
+      <td> {{absence.type}}</td>
+      <td> {{absence.statut}}</td>
+      <td *ngIf="absence.type=='mission'">
+        <a href="" [routerLink]="['/absences/visualiser']">
+          <fa name="eye"></fa>
+        </a>
+      </td>
+      <td>
+        <span *ngIf="absence.type!='mission' && absence.statut!=init">
+        <a [routerLink]="['/absences/modifier']">
+          <fa name="edit"></fa>
+        </a>
+        </span>
+        <span *ngIf="absence.type!='mission'">
+           <a class="text-primary" (click)="open(content)">
+          <fa name="trash"></fa>
+        </a>
+
+        </span>
+        <ng-template #content let-c="close()" let-d="dismiss()">
+          <div class="modal-header">
+            <h4 class="modal-title">Confirmation de suppression</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <p>Êtes-vous sûr de vouloir supprimer cette demande d'absence ?</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-success" (click)="deleteAbsence(absence);c">Supprimer</button>
+            <button class="btn btn-outline-danger" (click)="c">Annuler</button>
+          </div>
+        </ng-template>
+    </tr>
+    </tbody>
+  </table>
+  <div class="offset-8">
+    <div class="row">
+      <p id="add">Demander une absence
+        <button class="btn btn-primary" [routerLink]="['/absences/ajouter']">+</button>
+      </p>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>
+
+

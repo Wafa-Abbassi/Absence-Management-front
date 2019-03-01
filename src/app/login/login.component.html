@@ -1,0 +1,41 @@
+<div class="container">
+  <div class=" col-md-12 cadreLogin ">
+    <div class="row justify-content-center">
+      <img class="logo"
+           src="assets/img/logo_gestion_absences.png"/>
+    </div>
+    <h4 class="row justify-content-center">GDA</h4>
+    <span class="row justify-content-center">Gestion des Absences</span>
+    <form class="justify-content-center" (ngSubmit)="connexion()" [formGroup]="loginForm">
+      <div>
+        <label class="offset-md-3 col-md-2">Email: </label>
+        <input [formControl]="emailCtrl" [(ngModel)]="utilisateur.email" class="col-md-4 input-angular">
+        <div class="row justify-content-center messageErreur" *ngIf="emailCtrl.dirty && emailCtrl.hasError('email')">
+          Le champ email n'est pas valide
+        </div>
+        <div class="row justify-content-center messageErreur" *ngIf="emailCtrl.dirty && emailCtrl.hasError('required')">
+          Le champ email est requis
+        </div>
+      </div>
+      <div>
+        <label class="offset-md-3 col-md-2">Mot de passe: </label>
+        <input [formControl]="mdpCtrl" [(ngModel)]="utilisateur.mdp" type="password" class="col-md-4 input-angular">
+        <div class="row justify-content-center messageErreur" *ngIf="mdpCtrl.dirty && mdpCtrl.hasError('required')">
+          Le champ mot de passe est requis
+        </div>
+      </div>
+      <div *ngIf="!authentificationValide" class="row justify-content-center messageErreur">
+        Vos informations d'authentification sont invalides
+      </div>
+      <div>
+        <div class="offset-md-6 col-md-4">
+          <button type="submit" [disabled]="loginForm.invalid">Se connecter
+          </button>
+        </div>
+
+      </div>
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+  </div>
+</div>
+

@@ -1,0 +1,37 @@
+.logo {
+  height: 5em;
+  width: 5em;
+  margin: 2em;
+}
+
+.messageErreur {
+  color: brown;
+}
+
+.cadreLogin {
+  background-color: grey;
+}
+
+button {
+  margin: 2em;
+}
+
+.container{
+    padding: 4em;
+}
+
+
+.input-angular {
+  background-color: rgba(205, 208, 214, 0.56);
+  color: #3e3c3c;
+}
+.input-angular.ng-invalid.ng-dirty {
+  border: 2px red solid;
+  border-radius: 2px;
+}
+
+
+.input-angular.ng-valid {
+  border: 2px green solid;
+  border-radius: 2px;
+}

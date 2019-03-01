@@ -1,0 +1,29 @@
+<div class="container">
+  <h1>Validation des demandes</h1>
+  <table class="table table-striped centre">
+    <thead class="table-active">
+    <tr>
+      <th>Date de début</th>
+      <th>Date de fin</th>
+      <th>Type</th>
+      <th>Nom</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let absence of absences">
+    <tr *ngIf="absence.statut == wait">
+      <td> {{absence.dateDebut| date:'dd/MM/yyyy' }}</td>
+      <td> {{absence.dateFin| date:'dd/MM/yyyy' }}</td>
+      <td> {{absence.type}}</td>
+      <td>{{utilisateur.nom}}</td>
+      <td>
+        <button (click)="ValideAbsence(absence)">
+          <fa name="check" class="text-success"></fa>
+        </button>
+        <button (click)="RefusAbsence(absence)">
+          <fa name="times-circle" class="text-danger"></fa>
+        </button>
+      </td>
+    </tbody>
+  </table>
+</div>

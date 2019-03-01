@@ -1,0 +1,69 @@
+<div class="container">
+  <h1>Jours fériés et RTT employeurs</h1>
+  <div class="row justify-content-center">
+    <select (change)="changeYear($event.target.value)">
+      <option *ngFor="let annee of annees" (selected)="(annee == anneeAfficher) ? 'selected' : 'none'"> {{annee}}
+      </option>
+    </select>
+  </div>
+  <table class="table table-striped centre">
+    <thead class="table-active">
+    <tr>
+      <th>Date</th>
+      <th>Type</th>
+      <th>Jour</th>
+      <th>Commentaires</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let ferieRtt of ferieRtts">
+      <td> {{ferieRtt.date| date:'dd/MM/yyyy' }}</td>
+      <td> {{ferieRtt.type }}</td>
+      <td> {{dayNames[ferieRtt.date.getUTCDay()]}}</td>
+      <td> {{ferieRtt.commentaire}}</td>
+      <td>
+        <span *ngIf="ferieRtt.type != 'RTT employeur' || ferieRtt.statut == 'Initiale'">
+          <span>
+          <a [routerLink]="['/ferieRtts/modifier']">
+            <fa name="edit"></fa>
+          </a>
+          </span>
+            <span *ngIf="isNotInPast(ferieRtt.date)">
+             <a class="text-primary" (click)="open(content)">
+               <fa name="trash"></fa>
+          </a>
+                  <ng-template #content let-c="close()" let-d="dismiss()">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Confirmation de suppression</h4>
+                      <button type="button" class="close" aria-label="Close" (click)="d">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <p *ngIf="ferieRtt.type=='Férié'">Confirmez-vous la suppression du jour férié suivant ?</p>
+                        <p *ngIf="ferieRtt.type=='RTT employeur'">Confirmez-vous la suppression de la RTT employeur suivante ?</p>
+                        <p>- Date : {{ ferieRtt.date| date:'dd/MM/yyyy' }}</p>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-success" (click)="deleteFerieRtt(ferieRtt);c">Supprimer</button>
+                      <button class="btn btn-outline-danger" (click)="c">Annuler</button>
+                    </div>
+                  </ng-template>
+              </span>
+          </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="offset-8">
+    <div class="row">
+      <p id="add">Ajouter un jour férié ou une RTT emp
+        <button class="btn btn-primary" [routerLink]="['/ferieRtts/ajouter']">+</button>
+      </p>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

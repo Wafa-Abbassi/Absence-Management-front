@@ -1,0 +1,59 @@
+<h2>Nouveau jour férié / RTT employeur</h2>
+<br/>
+<br/>
+<form class="container justify-content-center" (ngSubmit)="handleSubmit()" [formGroup]="userForm" method="post">
+  <div class="form-group row justify-content-center">
+    <label for="date" class="col-form-label mr-2">Date de fin</label>
+    <div class="col-input-group">
+      <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd"
+               name="dp" ngbDatepicker [dayTemplate]="customDay" #e="ngbDatepicker" id="date" [formControl]="dateCtrl"
+               [(ngModel)]="date">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="e.toggle()" type="button">
+            <img src="../../assets/img/calendar.png" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col" *ngIf="dateCtrl.dirty && dateCtrl.hasError('required')">
+      <span class="erreur">Le champ est requis</span>
+    </div>
+    <div class="col" *ngIf="dateCtrl.dirty && dateCtrl.hasError('isGreaterThanToday')">
+      <span class="erreur">La date doit être supérieure à la date du jour</span>
+    </div>
+  </div>
+  <div class="form-group row justify-content-center">
+    <label for="typeConges" class="col-form-label mr-2">Type de jour</label>
+    <select class="custom-select my-1 mr-sm-2" id="typeConges" style="width: 15rem" [(ngModel)]="ferieRtt.type"
+            [ngModelOptions]="{standalone: true}">
+      <option>Férié</option>
+      <option>RTT employeur</option>
+    </select>
+  </div>
+  <div class="form-group row justify-content-center">
+    <label for="motif" class="col-form-label mr-2">Commentaires</label>
+    <textarea class="col-form-control" id="motif" rows="4" style="width: 25rem" [(ngModel)]="ferieRtt.commentaire"
+              [ngModelOptions]="{standalone: true}"></textarea>
+  </div>
+  <div class="form-group row">
+    <div class="col mr-2">
+      <div class="row justify-content-end">
+        <input class="btn btn-danger align-self-end" type="button" value="Annuler" [routerLink]="['/ferieRtts']">
+      </div>
+    </div>
+    <div class="col">
+      <div class="row justify-content-start">
+        <input class="btn btn-success" type="submit" value="Valider" [disabled]="userForm.invalid"
+               (click)="changeSuccessMessage()">
+      </div>
+    </div>
+  </div>
+</form>
+<ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
+<ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled"
+             let-focused="focused">
+  <span class="custom-day" [class.hidden]="date.month !== currentMonth" [class.grise]="avantDate(date)">
+    {{ date.day }}
+  </span>
+</ng-template>
